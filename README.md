@@ -9,7 +9,8 @@
 ## 主要功能：
 
 1. 未输入内容时点击发送按钮，会弹出对话框提示；
-2. 输入内容后点击发送按钮，文本内容会显示在下方区域。
+2. 输入内容后点击发送按钮，文本内容会显示在下方区域；
+3. 点击删除按钮，可以删除本条评论。
 
 ## 网页代码如下：
 
@@ -50,9 +51,16 @@ ul {
 }
 li {
     list-style: none;
+    width: 1000px;
+    border: 1px solid #eee;
     margin: 10px 0 10px 100px;
     font-size: 16px;
     color: pink;
+}
+a {
+    text-decoration: none;
+    color: red;
+    float: right;
 }
 ```
 
@@ -62,15 +70,22 @@ li {
 ```javascript
 var ul = document.querySelector('ul');
 var text = document.querySelector('textarea');
-var btn = document.querySelector('button')
+var btn = document.querySelector('button');
+
 btn.onclick = function() {
     if (text.value == '') {
         alert('您没有输入内容');
         return false;
     }else {
         var li = document.createElement('li');
-        li.innerHTML = text.value;
+        li.innerHTML = text.value + "<a href='javascript:;'>删除</a>";
         ul.insertBefore(li,ul.children[0]);
+        var as = document.querySelectorAll('a');
+        for (var i = 0;i < as.length;i++) {
+            as[i].onclick = function() {
+                ul.removeChild(this.parentNode);
+            }
+        }
     }
 }
 ```
